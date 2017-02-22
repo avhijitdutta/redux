@@ -21,7 +21,13 @@ export default {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jquery: "jquery",
+      "window.jQuery": "jquery",
+      jQuery:"jquery"
+    })
   ],
   module: {
     loaders: [
@@ -38,7 +44,8 @@ export default {
       {
         test: /\.(jpe?g|png|gif|svg)$/,
         loader: "file"
-      }
+      },
+      { test: /bootstrap.+\.(jsx|js)$/, loader: 'imports?jQuery=jquery,$=jquery,this=>window' }
     ]
   }
 };
