@@ -1,9 +1,24 @@
 import React from 'react';
-import { Link } from 'react-router';
 import CheckBox from '../common/CheckBox';
-import { browserHistory } from 'react-router';
+import { browserHistory , Link } from 'react-router';
 
 class LoginPage extends React.Component{
+
+  constructor(props , context){
+    super(props , context );
+
+    this.state={
+      login:{
+        email:'',
+        password:''
+      }
+    };
+
+    this.onEmailChange=this.onEmailChange.bind(this);
+    this.onPassChange=this.onPassChange.bind(this);
+    this.createCompany=this.createCompany.bind(this);
+
+  }
 
   componentWillMount(){
 
@@ -16,16 +31,33 @@ class LoginPage extends React.Component{
     //
     //browserHistory.push('/some/path');
   }
+
   createCompany(e){
 
-    e.preventDefault();
+    console.log(this.state.login);
 
-    browserHistory.push('/home');
+ /*   e.preventDefault();
+
+    browserHistory.push('/home');*/
 
   }
 
   goToRegistartion(){
+
     browserHistory.push('/registration');
+
+  }
+
+  onEmailChange(event){
+    const userLogin=this.state.login;
+    userLogin.email=event.target.value;
+    this.setState({userLogin:userLogin});
+  }
+
+  onPassChange(event){
+    const userLogin=this.state.login;
+    userLogin.password=event.target.value;
+    this.setState({userLogin:userLogin});
   }
 
   render(){
@@ -41,11 +73,11 @@ class LoginPage extends React.Component{
           <p className="login-box-msg">Sign in to start your session</p>
 
             <div className="form-group has-feedback">
-              <input type="email" className="form-control" placeholder="Email"/>
+              <input type="email" className="form-control" placeholder="Email" onChange={this.onEmailChange} value={this.state.login.email} />
                 <span className="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div className="form-group has-feedback">
-              <input type="password" className="form-control" placeholder="Password"/>
+              <input type="password" className="form-control" placeholder="Password" onChange={this.onPassChange} value={this.state.login.password} />
                 <span className="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div className="row">
@@ -56,7 +88,6 @@ class LoginPage extends React.Component{
               <div className="col-xs-4">
                 <button type="submit" className="btn btn-primary btn-block btn-flat" onClick={this.createCompany}>
                   Sign In
-
                 </button>
               </div>
 
