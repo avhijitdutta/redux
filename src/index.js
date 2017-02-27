@@ -13,8 +13,14 @@ import '../node_modules/admin-lte/dist/js/app.min.js';
 import '../node_modules/admin-lte/plugins/iCheck/icheck.min.js';
 import '../node_modules/admin-lte/plugins/iCheck/all.css';
 
-render(
-		<Router history ={browserHistory} routes={routes}/>,
-		document.getElementById('app')
+import configureStore from './store/configureStore'
+import {Provider} from 'react-redux';
 
+
+const store = configureStore();
+render(
+  <Provider store={store}>
+		<Router history ={browserHistory} routes={routes}/>
+  </Provider>,
+  document.getElementById('app')
 );

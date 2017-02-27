@@ -1,6 +1,11 @@
 import React from 'react';
 import CheckBox from '../common/CheckBox';
 import { browserHistory , Link } from 'react-router';
+import * as loginAction from '../../action/loginAction';
+
+
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 class LoginPage extends React.Component{
 
@@ -28,13 +33,11 @@ class LoginPage extends React.Component{
   componentWillUnmount(){
 
     document.getElementById('body').className='';
-    //
-    //browserHistory.push('/some/path');
   }
 
   createCompany(e){
-
-    console.log(this.state.login);
+    this.props.actions.loginSubmit(this.state.login);
+    /*console.log(this.state.login);*/
 
  /*   e.preventDefault();
 
@@ -60,6 +63,11 @@ class LoginPage extends React.Component{
     this.setState({userLogin:userLogin});
   }
 
+  userRow(user,index){
+
+    return <div key={index}> {user.email}</div>
+  }
+
   render(){
 
     return(
@@ -71,7 +79,9 @@ class LoginPage extends React.Component{
 
         <div className="login-box-body">
           <p className="login-box-msg">Sign in to start your session</p>
-
+            <div>
+              {this.props.login.map(this.userRow)}
+              </div>
             <div className="form-group has-feedback">
               <input type="email" className="form-control" placeholder="Email" onChange={this.onEmailChange} value={this.state.login.email} />
                 <span className="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -101,4 +111,15 @@ class LoginPage extends React.Component{
   }
 }
 
-export default LoginPage;
+function mapStateToProps(state,ownProps) {
+    return{
+      login:state.login
+    };
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    actions:bindActionCreators(loginAction,dispatch)
+  };
+}
+export default connect(mapStateToProps,mapDispatchToProps)(LoginPage);
